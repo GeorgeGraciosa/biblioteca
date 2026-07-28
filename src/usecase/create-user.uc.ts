@@ -1,4 +1,4 @@
-import { Usuario } from '../model/user'
+import { Usuario } from '../model/usuario'
 import { UserRepository } from '../repositories/user.repository'
 import { CreateUserDto } from '../view/dto/create-user-form.dto'
 
