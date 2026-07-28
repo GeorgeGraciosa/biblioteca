@@ -1,6 +1,6 @@
 import { Pool } from 'pg'
 
-import { Usuario } from '../model/user'
+import { Usuario } from '../model/usuario'
 
 export class UserRepository {
   constructor(private readonly pool: Pool) {}
