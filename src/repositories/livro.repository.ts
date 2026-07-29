@@ -11,7 +11,7 @@ export class LivroRepository {
             [id]
         )
 
-        if(rows.length === 0) null
+        if(rows.length === 0) return null
 
         const linha = rows[0]
 
@@ -25,7 +25,7 @@ export class LivroRepository {
     }
     async atualizarEstoque(id: number, novaQuantidade: number): Promise<void>{
         await this.pool.query(
-            'UPDATE livro SET quantidade_disponuvel = $1 WHERE id = $2',
+            'UPDATE livro SET quantidade_disponivel = $1 WHERE id = $2',
             [novaQuantidade, id]
         )
     }
