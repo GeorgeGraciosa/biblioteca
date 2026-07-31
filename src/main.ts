@@ -5,6 +5,8 @@ import { CreateUserUseCase } from './usecase/create-user.uc'
 import { MainView } from './view/main.view'
 import { LivroRepository } from './repositories/livro.repository'
 import { ReservaUseCase } from './usecase/reserva.usecase'
+import { DevolucaoUseCase } from './usecase/devolucao.usecase'
+import { ReservaRepository } from './repositories/reserva.repository'
 
 async function bootstrap() {
   await initDatabase()
@@ -12,7 +14,12 @@ async function bootstrap() {
   const createUserUc = new CreateUserUseCase(new UserRepository(pool))
   const livroRepository = new LivroRepository(pool)
   const reservaUseCase = new ReservaUseCase(livroRepository)
-  const mainView = new MainView(createUserUc, reservaUseCase)
+  const reservaRepository = new ReservaRepository(pool)
+  const devolucaoUseCase = new DevolucaoUseCase(
+    livroRepository,
+    reservaRepository
+  )
+  const mainView = new MainView(createUserUc, reservaUseCase, devolucaoUseCase)
 
   await mainView.start()
 }
