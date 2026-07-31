@@ -1,4 +1,9 @@
--- Active: 1780965962148@@127.0.0.1@5432@biblioteca@public
+CREATE TABLE funcionario (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    matricula VARCHAR(50) UNIQUE NOT NULL,
+    ativo BOOLEAN DEFAULT true
+);
 
 CREATE TABLE editora (
     id SERIAL PRIMARY KEY,
@@ -7,7 +12,7 @@ CREATE TABLE editora (
 
 CREATE TABLE categoria (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
+    nome VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE autor (
@@ -21,15 +26,17 @@ CREATE TABLE usuario (
     email VARCHAR(100) UNIQUE NOT NULL,
     login VARCHAR(50) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
-    cpf VARCHAR(14) UNIQUE NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL
 );
 
 CREATE TABLE livro (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(200) NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    isbn VARCHAR(20) UNIQUE NOT NULL,
+    total_exemplares INT NOT NULL,
+    quantidade_disponivel INT NOT NULL,
     editora_id INT REFERENCES editora(id),
-    categoria_id INT REFERENCES categoria(id),
-    quantidade_disponivel INT DEFAULT 1
+    categoria_id INT REFERENCES categoria(id)
 );
 
 CREATE TABLE livro_autor (
@@ -40,9 +47,10 @@ CREATE TABLE livro_autor (
 
 CREATE TABLE reserva_acervo (
     id SERIAL PRIMARY KEY,
-    usuario_id INT REFERENCES usuario(id),
     livro_id INT REFERENCES livro(id),
-    data_reserva DATE NOT NULL DEFAULT CURRENT_DATE,
-    data_devolucao DATE,
-    status VARCHAR(20) DEFAULT 'pendente'
+    funcionario_id INT REFERENCES funcionario(id),
+    usuario_id INT REFERENCES usuario(id),
+    data_reserva TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_devolucao TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'pendente'
 );
