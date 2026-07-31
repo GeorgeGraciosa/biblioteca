@@ -6,6 +6,8 @@ import { DevolucaoUseCase } from '../usecase/devolucao.usecase'
 import { pool } from '../@common/database/database'
 
 export class MainView extends ConsoleView {
+  private readonly FUNCIONARIO_LOGADO_ID = 1
+
   constructor(
     private readonly createUserUc: CreateUserUseCase,
     private readonly reservaUseCase: ReservaUseCase,
@@ -81,7 +83,11 @@ export class MainView extends ConsoleView {
       await this.prompt('Pressione ENTER para voltar...')
       return
     }
-    const reserva = await this.reservaUseCase.execute(livroId, usuarioId)
+    const reserva = await this.reservaUseCase.execute(
+      livroId,
+      usuarioId,
+      this.FUNCIONARIO_LOGADO_ID
+    )
 
     await this.prompt(
       `Reserva realizada com sucesso! ID do livro reservado: ${reserva.livroID}. Pressione ENTER...`

@@ -15,11 +15,26 @@ export class ReservaRepository {
 
     return new ReservaAcervo(
       linha.usuario_id,
+      linha.funcionario_id,
       linha.livro_id,
       linha.status,
       linha.data_reserva,
       linha.data_devolucao,
       linha.id
+    )
+  }
+
+  async criar(reserva: ReservaAcervo): Promise<void> {
+    await this.pool.query(
+      `INSERT INTO reserva_acervo (livro_id, funcionario_id, usuario_id, data_reserva, status)
+        VALUES($1, $2, $3, $4, $5)`,
+      [
+        reserva.livroID,
+        reserva.funcionarioID,
+        reserva.usuarioID,
+        reserva.dataReserva,
+        reserva.status
+      ]
     )
   }
 

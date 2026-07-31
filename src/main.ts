@@ -13,8 +13,8 @@ async function bootstrap() {
 
   const createUserUc = new CreateUserUseCase(new UserRepository(pool))
   const livroRepository = new LivroRepository(pool)
-  const reservaUseCase = new ReservaUseCase(livroRepository)
   const reservaRepository = new ReservaRepository(pool)
+  const reservaUseCase = new ReservaUseCase(livroRepository, reservaRepository)
   const devolucaoUseCase = new DevolucaoUseCase(
     livroRepository,
     reservaRepository

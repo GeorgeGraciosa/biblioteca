@@ -1,6 +1,7 @@
 export class ReservaAcervo {
   id?: number
   usuarioID: number
+  funcionarioID: number
   livroID: number
   dataReserva: Date
   dataDevolucao?: Date
@@ -8,6 +9,7 @@ export class ReservaAcervo {
 
   constructor(
     usuarioID: number,
+    funcionarioID: number,
     livroID: number,
     status: string = 'pendente',
     dataReserva: Date = new Date(),
@@ -15,6 +17,7 @@ export class ReservaAcervo {
     id?: number
   ) {
     this.usuarioID = usuarioID
+    this.funcionarioID = funcionarioID
     this.livroID = livroID
     this.status = status
     this.dataReserva = dataReserva
