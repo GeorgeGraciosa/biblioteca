@@ -3,6 +3,7 @@ import { ConsoleView } from '../@common/view/console.view'
 import { CreateUserUseCase } from '../usecase/create-user.uc'
 import { ReservaUseCase } from '../usecase/reserva.usecase'
 import { DevolucaoUseCase } from '../usecase/devolucao.usecase'
+import { pool } from '../@common/database/database'
 
 export class MainView extends ConsoleView {
   constructor(
@@ -38,6 +39,7 @@ export class MainView extends ConsoleView {
         break
       case '4':
         this.exit()
+        await pool.end()
         break
       default:
         this.display('Opção inváçida!')
