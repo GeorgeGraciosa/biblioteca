@@ -1,4 +1,4 @@
-# Acervo CLI - Sistema de Gerenciamento de Biblioteca Acadêmica
+# Acervo CLI - Sistema de Gerenciamento de Biblioteca
 
 Projeto final avaliativo desenvolvido para o Módulo 01 de Back End Node. Este é um sistema de linha de comando (CLI) construído com Node.js, TypeScript e PostgreSQL, focado em princípios de Clean Architecture, injeção de dependências e acesso seguro a dados.
 
