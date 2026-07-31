@@ -2,11 +2,13 @@ import { CreateUserDto } from './dto/create-user-form.dto'
 import { ConsoleView } from '../@common/view/console.view'
 import { CreateUserUseCase } from '../usecase/create-user.uc'
 import { ReservaUseCase } from '../usecase/reserva.usecase'
+import { DevolucaoUseCase } from '../usecase/devolucao.usecase'
 
 export class MainView extends ConsoleView {
   constructor(
     private readonly createUserUc: CreateUserUseCase,
-    private readonly reservaUseCase: ReservaUseCase
+    private readonly reservaUseCase: ReservaUseCase,
+    private readonly devolucaoUseCase: DevolucaoUseCase
   ) {
     super(true)
   }
@@ -18,7 +20,8 @@ export class MainView extends ConsoleView {
     this.display('========================================')
     this.display('1. Cadastrar novo usuário')
     this.display('2. Reservar um livro')
-    this.display('3. Sair')
+    this.display('3. Devolver um livro')
+    this.display('4. Sair')
     this.display('========================================')
 
     const opcao = await this.prompt('Escolha uma opção: ')
@@ -26,17 +29,20 @@ export class MainView extends ConsoleView {
     switch (opcao) {
       case '1':
         await this.cadastrarUsuario()
-        break;
+        break
       case '2':
         await this.reservarLivro()
-        break;
+        break
       case '3':
+        await this.devolverLivro()
+        break
+      case '4':
         this.exit()
-        break;
+        break
       default:
         this.display('Opção inváçida!')
         await this.prompt('Pressione ENTER para tentar novamente...')
-        break;
+        break
     }
   }
 
@@ -56,12 +62,9 @@ export class MainView extends ConsoleView {
       await this.prompt('Pressione ENTER para sair...')
       return
     }
-    await this.prompt(
-      `Usuario ${userOrError.nome} criado com sucesso!`
-    )
+    await this.prompt(`Usuario ${userOrError.nome} criado com sucesso!`)
     await this.prompt('Pressione ENTER para sair...')
     this.exit()
-
   }
 
   private async reservarLivro(): Promise<void> {
@@ -78,6 +81,31 @@ export class MainView extends ConsoleView {
     }
     const reserva = await this.reservaUseCase.execute(livroId, usuarioId)
 
-    await this.prompt(`Reserva realizada com sucesso! ID do livro reservado: ${reserva.livroID}. Pressione ENTER...`)
+    await this.prompt(
+      `Reserva realizada com sucesso! ID do livro reservado: ${reserva.livroID}. Pressione ENTER...`
+    )
+  }
+
+  private async devolverLivro(): Promise<void> {
+    const reservaIdStr = await this.prompt(
+      'Digite o ID da reserva que será devolvida: '
+    )
+    const reservaID = Number(reservaIdStr)
+
+    if (isNaN(reservaID)) {
+      this.display('O ID deve ser um número valido!')
+      await this.prompt('Pressione ENTER para voltar...')
+      return
+    }
+    try {
+      const mensagemSucesso = await this.devolucaoUseCase.executar({
+        reservaID
+      })
+
+      await this.prompt(`${mensagemSucesso} Pressione ENTER para voltar...`)
+    } catch (error: any) {
+      this.display(`\nErro: ${error.message || 'Ocorreu um erro inesperado.'}`)
+      await this.prompt('Pressione ENTER para voltar...')
+    }
   }
 }
