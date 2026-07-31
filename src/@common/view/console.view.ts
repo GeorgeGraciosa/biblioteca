@@ -182,7 +182,7 @@ export abstract class ConsoleView {
     if (error instanceof BaseException) {
       LoggerUtil.error(error)
       this.display(error.message)
-      await this.prompt('Pressione ENTER para continuar:')
+      await this.prompt('Pressione ENTER para continuar')
       return
     }
     throw error
