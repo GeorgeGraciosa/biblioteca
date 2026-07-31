@@ -38,11 +38,11 @@ export class MainView extends ConsoleView {
         await this.devolverLivro()
         break
       case '4':
-        this.exit()
         await pool.end()
+        this.exit()
         break
       default:
-        this.display('Opção inváçida!')
+        this.display('Opção inválida!')
         await this.prompt('Pressione ENTER para tentar novamente...')
         break
     }
